@@ -1,10 +1,11 @@
 #include <iostream>
+#include <vector>
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
 using namespace std;
 
-int partitionDeterministic(int a[], int low, int high)
+int partitionDeterministic(vector<int>& a, int low, int high)
 {
     int pivot = a[high];
     int i = low - 1;
@@ -22,7 +23,7 @@ int partitionDeterministic(int a[], int low, int high)
     return i + 1;
 }
 
-void quickSortDeterministic(int a[], int low, int high)
+void quickSortDeterministic(vector<int>& a, int low, int high)
 {
     if (low < high)
     {
@@ -33,7 +34,7 @@ void quickSortDeterministic(int a[], int low, int high)
     }
 }
 
-int partitionRandomized(int a[], int low, int high)
+int partitionRandomized(vector<int>& a, int low, int high)
 {
     int randomIndex = low + rand() % (high - low + 1);
 
@@ -55,7 +56,7 @@ int partitionRandomized(int a[], int low, int high)
     return i + 1;
 }
 
-void quickSortRandomized(int a[], int low, int high)
+void quickSortRandomized(vector<int>& a, int low, int high)
 {
     if (low < high)
     {
@@ -66,9 +67,9 @@ void quickSortRandomized(int a[], int low, int high)
     }
 }
 
-void display(int a[], int n)
+void display(vector<int>& a)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < a.size(); i++)
         cout << a[i] << " ";
 
     cout << endl;
@@ -87,36 +88,25 @@ int main()
         cout << "2. Randomized Quick Sort\n";
         cout << "3. Exit\n";
         cout << "Enter your choice: ";
-
-        if (!(cin >> choice))
-        {
-            cout << "Invalid input.\n";
-            return 0;
-        }
+        cin >> choice;
 
         if (choice == 1 || choice == 2)
         {
             cout << "Enter number of elements: ";
+            cin >> n;
 
-            if (!(cin >> n) || n <= 0)
+            if (n <= 0)
             {
-                cout << "Number of elements must be a positive integer.\n";
-                return 0;
+                cout << "Invalid number of elements.\n";
+                continue;
             }
 
-            int *a = new int[n];
+            vector<int> a(n);
 
             cout << "Enter elements:\n";
 
             for (int i = 0; i < n; i++)
-            {
-                if (!(cin >> a[i]))
-                {
-                    cout << "Invalid element input.\n";
-                    delete[] a;
-                    return 0;
-                }
-            }
+                cin >> a[i];
 
             if (choice == 1)
                 quickSortDeterministic(a, 0, n - 1);
@@ -124,9 +114,7 @@ int main()
                 quickSortRandomized(a, 0, n - 1);
 
             cout << "Sorted Array:\n";
-            display(a, n);
-
-            delete[] a;
+            display(a);
         }
         else if (choice == 3)
         {
